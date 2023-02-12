@@ -11,17 +11,19 @@ export default{
 
 <template>
     <div class="flex justify-between py-3 pl-2">
-        <div v-if="advancedSearch === false" class="relative max-w-xs">
+        <div v-if="advancedSearch === false" class="relative max-w-xs flex">
             <label for="search" class="sr-only"> Search </label>
             <input type="text" name="search"
-                class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-100 dark:border-gray-700 dark:text-gray-800"
+                class="block w-full p-3 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-100 dark:border-gray-700 dark:text-gray-800"
                 placeholder="Search..." />
-            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24"
+            <div>
+                <button class="block max-w-xs ml-2 p-3 border-gray-200 rounded-md dark:bg-gray-100 hover:bg-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
+                </button>
             </div>
         </div>
 
