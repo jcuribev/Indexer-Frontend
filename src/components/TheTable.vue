@@ -1,19 +1,21 @@
 <script>
 import Modal from './email-modal.vue';
 import axios from 'axios'
+import { ref } from 'vue';
+import SearchFilter from './TheFilter.vue';
 
 export default {
 
-  components: { Modal },
+  components: { Modal, SearchFilter },
   data: () => {
-
     return {
-      data: null
+      data: null,
+      currentTerm: ''
     }
   },
 
   methods: {
-    async getData(searchTerm, page) {
+    async getData(searchTerm = "any", page = 0) {
       const response = await axios.post('http://localhost:3000/api/data', {
         searchTerm: searchTerm,
         page: page,
@@ -25,26 +27,22 @@ export default {
             "Content-Type": "application/json;charset=UTF-8",
           },
         })
-      return response.data
+      this.currentTerm = searchTerm
+      return this.data = response.data.hits.hits
     },
   },
 
-  created(){
-    this.$root.$refs.TheTable = this
-  },
-
   mounted() {
-    this.getData("any", 0)
-    .then(data => {
-      this.data = data.hits.hits
-      console.log(this.data)
-    })
-  },
+    this.getData()
+  }
 }
 
 </script>
 
 <template>
+  <div>
+    <SearchFilter @search-input="getData" />
+  </div>
   <div class="flex flex-col">
     <div class="overflow-x-auto">
       <div class="p-1.5 w-full inline-block align-middle">

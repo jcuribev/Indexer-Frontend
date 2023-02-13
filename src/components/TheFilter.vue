@@ -5,6 +5,18 @@ export default{
     setup() {
         let advancedSearch = ref(false);
         return {advancedSearch}
+    },
+
+    data() {
+        return{
+            searchInput: ''
+        }
+    },
+    
+    methods: {
+        sendSearchInput(){
+            this.$emit("search-input", this.searchInput)
+        }
     }
 }
 </script>
@@ -12,12 +24,12 @@ export default{
 <template>
     <div class="flex justify-between py-3 pl-2">
         <div v-if="advancedSearch === false" class="relative max-w-xs flex">
-            <label for="search" class="sr-only"> Search </label>
-            <input type="text" name="search"
+            <label for="searchInput" class="sr-only"> Search </label>
+            <input type="text" v-model="searchInput" name="searchInput"
                 class="block w-full p-3 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-100 dark:border-gray-700 dark:text-gray-800"
                 placeholder="Search..." />
             <div>
-                <button class="block max-w-xs ml-2 p-3 border-gray-200 rounded-md dark:bg-gray-100 hover:bg-gray-300">
+                <button @click="sendSearchInput" class="block max-w-xs ml-2 p-3 border-gray-200 rounded-md dark:bg-gray-100 hover:bg-gray-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
