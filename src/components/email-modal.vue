@@ -2,7 +2,12 @@
 import { ref } from 'vue';
 export default {
 
-    props: ['email'],
+    props: {
+        email: {
+            type: Object,
+            required: true
+        }
+    },
 
     setup() {
         let isOpen = ref(false);
@@ -20,8 +25,8 @@ export default {
                 class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 h-auto">
                 <div class="max-w-screen-lg p-6 mx-4 bg-white rounded-md shadow-xl">
                     <div class="flex items-center justify-between whitespace-pre-line max-w-3xl">
-                        <p class="text-2xl text-left">{{ email.subject }}</p>
-                        <p class="text-sm text-left text-gray-500">{{ email.date }}</p>
+                        <p class="mr-2 text-2xl text-left">{{ email.subject }}</p>
+                        <p class="ml-2 text-sm text-left text-gray-500">{{ email.date }}</p>
                     </div>
                     <div class="flex text-gray-600 my-2">
                         From: {{ email.from }}

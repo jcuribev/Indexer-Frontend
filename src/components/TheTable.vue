@@ -1,39 +1,46 @@
 <script>
-import Modal from './Modal.vue';
+import Modal from './email-modal.vue';
 import axios from 'axios'
 
 export default {
 
   components: { Modal },
-
-  setup() {
-
-  },
-
   data: () => {
 
     return {
       data: null
-    }  
+    }
   },
 
   methods: {
-    async getData(){
+    async getData(searchTerm, page) {
       const response = await axios.post('http://localhost:3000/api/data', {
-        searchTerm: "kay"
-      })
+        searchTerm: searchTerm,
+        page: page,
+        elementsPerPage: 10
+      },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        })
       return response.data
-    },  
+    },
   },
 
-    mounted() {
+  created(){
+    this.$root.$refs.TheTable = this
+  },
 
-      this.getData().then( data => {
-        this.data = data.hits.hits
-      })
-    },
-
-  }
+  mounted() {
+    this.getData("any", 0)
+    .then(data => {
+      this.data = data.hits.hits
+      console.log(this.data)
+    })
+  },
+}
 
 </script>
 
@@ -53,7 +60,7 @@ export default {
               </tr>
             </thead>
             <tbody v-if="this.data !== null" class="divide-y divide-gray-200">
-              <tr v-for="email in this.data">
+              <tr v-for="email in this.data" :key="email._id">
                 <td class="table-item">
                   {{ email._source.subject }}
                 </td>
