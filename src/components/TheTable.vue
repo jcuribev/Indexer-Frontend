@@ -9,17 +9,34 @@ export default {
   components: { Modal, SearchFilter },
   data: () => {
     return {
+
+      url: 'http://localhost:3000/api/',
+      searchEndpoint: 'search',
+      deleteEndpoint: 'delete',
+      elementsPerPage: 10,
       data: null,
-      currentTerm: ''
+      currentTerm: ""
     }
   },
 
+  mounted() {
+    this.getData()
+  },
+
   methods: {
-    async getData(searchTerm = "any", page = 0) {
-      const response = await axios.post('http://localhost:3000/api/data', {
+    async getData() {
+      this.makeDataRequest("", 0, this.url)
+    },
+
+    async filterData(searchTerm, page) {
+      this.makeDataRequest(searchTerm, page, this.url + this.searchEndpoint)
+    },
+
+    async makeDataRequest(searchTerm = "", page = 0, url) {
+      const response = await axios.post(url, {
         searchTerm: searchTerm,
         page: page,
-        elementsPerPage: 10
+        elementsPerPage: this.elementsPerPage
       },
         {
           headers: {
@@ -29,19 +46,15 @@ export default {
         })
       this.currentTerm = searchTerm
       return this.data = response.data.hits.hits
-    },
+    }
   },
-
-  mounted() {
-    this.getData()
-  }
 }
 
 </script>
 
 <template>
   <div>
-    <SearchFilter @search-input="getData" />
+    <SearchFilter @search-input="filterData" />
   </div>
   <div class="flex flex-col">
     <div class="overflow-x-auto">
