@@ -3,19 +3,20 @@ import Modal from './email-modal.vue';
 import axios from 'axios'
 import { ref } from 'vue';
 import SearchFilter from './TheFilter.vue';
+import ThePagination from './ThePagination.vue';
 
 export default {
 
-  components: { Modal, SearchFilter },
+  components: { Modal, SearchFilter, ThePagination },
   data: () => {
     return {
-
       url: 'http://localhost:3000/api/',
       searchEndpoint: 'search',
       deleteEndpoint: 'delete',
       elementsPerPage: 10,
       data: null,
-      currentTerm: ""
+      currentTerm: "",
+      totalResults: 0
     }
   },
 
@@ -24,11 +25,16 @@ export default {
   },
 
   methods: {
-    async getData() {
-      this.makeDataRequest("", 0, this.url)
+    async getData(page = 0) {
+      this.makeDataRequest("", page, this.url)
     },
 
     async filterData(searchTerm, page) {
+      if (searchTerm === "") {
+        this.getData()
+        return
+      }
+
       this.makeDataRequest(searchTerm, page, this.url + this.searchEndpoint)
     },
 
@@ -45,7 +51,16 @@ export default {
           },
         })
       this.currentTerm = searchTerm
+      this.totalResults = response.data.hits.total.value
       return this.data = response.data.hits.hits
+    },
+
+    async changePage(page) {
+
+      if (this.currentTerm === "")
+        this.getData(page)
+
+      this.filterData(this.currentTerm, page)
     }
   },
 }
@@ -92,6 +107,9 @@ export default {
           </table>
         </div>
       </div>
+    </div>
+    <div class="self-center">
+      <ThePagination @change-page="changePage" :total="this.totalResults" :perPage="this.elementsPerPage"></ThePagination>
     </div>
   </div>
 </template>

@@ -10,4 +10,8 @@
     .table-header {
         @apply px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase
     }
+
+    .pagination-button {
+        @apply rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm
+    }
 }
