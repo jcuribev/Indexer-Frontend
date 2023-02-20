@@ -42,7 +42,7 @@ export default {
                             class="flex-col text-gray-600 my-2 max-w-xs overflow-hidden text-ellipsis">
                             To: {{ email.to.join(', ') }}
                         </div>
-                        <button v-if="expandRecipients === false"
+                        <button v-if="expandRecipients === false && email.to.length > 1"
                             class="flex-col text-blue-400 mx-2 hover:text-blue-600"
                             @click="expandRecipients = !expandRecipients">See More</button>
                     </div>
