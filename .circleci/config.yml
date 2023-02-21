@@ -5,28 +5,28 @@ orbs:
 
 jobs:
   setup-ec2:
-  executor: aws-clu/default
-  steps:
-    - checkout
-    - run:
-      name: Install terraform
-      command: |
-        sudo apt-get update
-        sudo apt-get install -y gnupg software-properties-common curl
+    executor: aws-clu/default
+    steps:
+      - checkout
+      - run:
+          name: Install terraform
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y gnupg software-properties-common curl
 
-        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - 
-        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - 
+            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 
-        sudo apt-get update && sudo apt-get install terraform
-  - aws-cli/setup:
-      profile-name: my-profile
-  - run:
-      name: Run terraform
-      command: |
-      cd terraform
-      terraform init
-      terraform validate
-      terraform apply -auto-approve
+            sudo apt-get update && sudo apt-get install terraform
+      - aws-cli/setup:
+          profile-name: my-profile
+      - run:
+          name: Run terraform
+          command: |
+            cd terraform
+            terraform init
+            terraform validate
+            terraform apply -auto-approve
 
 workflows:
   build-and-deploy:
