@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   setup-ec2:
-    executor: aws-clu/default
+    executor: aws-cli/default
     steps:
       - checkout
       - run:
